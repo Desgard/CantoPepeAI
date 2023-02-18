@@ -45,12 +45,12 @@ function addItem() {
     setApiKey(key);
     renew();
 
-    officialTips.value = "API Key 已更新。";
+    officialTips.value = "API Key Updated。";
     return;
   }
 
-  if (input == "登出") {
-    officialTips.value = "API Key 已清空。";
+  if (input == "Log out") {
+    officialTips.value = "API Key Clearn。";
 
     // 登出，清空 key
     setApiKey("");
@@ -60,7 +60,7 @@ function addItem() {
   const apiKey = getApiKey();
   if (apiKey == null || apiKey.length == 0) {
     officialTips.value =
-      "请先按照格式「key:YOUR_API_KEY」格式输入以更新 API Key。";
+      "Use the format「key:YOUR_API_KEY」to update API Key。";
     return;
   }
 
@@ -76,7 +76,7 @@ function addItem() {
     if (input) {
       isLoading.value = true;
       items.value.push({ isGPT: false, message: input });
-      items.value.push({ isGPT: true, message: "💭 思考中..." });
+      items.value.push({ isGPT: true, message: "💭 croak..." });
 
       // 请求 ChatGPT
       api.value
@@ -103,9 +103,9 @@ function stop() {
 // 输入框占位符
 const inputPlaceholder = computed(() => {
   if (isLoading.value) {
-    return "💭 思考中...";
+    return "💭 croak...";
   } else {
-    return "请在此输入消息...";
+    return "Say...";
   }
 });
 
@@ -139,35 +139,25 @@ onUnmounted(() => {
   <div class="chatgkd">
     <!-- Header -->
     <div class="header">
-      <span class="button" @click="toggleHelp">帮助</span>
+      <span class="button" @click="toggleHelp">Help</span>
       <div class="title-container">
-        <span class="title">ChatGKD</span>
-        <a class="subtitle" href="https://github.com/kingcos/ChatGKD"
-          >Powered by kingcos.me</a
-        >
+        <span class="title">Pepe AI 🐸</span>
       </div>
-      <span class="button" @click="newChat">新对话</span>
+      <span class="button" @click="newChat">New Topic</span>
     </div>
 
     <!-- 帮助区域 -->
     <div class="help" v-if="showHelp">
       <div>
-        1. 欢迎使用 ChatGKD for web，本项目已开源在
-        <a href="https://github.com/kingcos/ChatGKD"
-          >github.com/kingcos/ChatGKD</a
-        >；<br />
-        2. ChatGKD for web 仅做接口封装与页面展示，不提供 API Key 且不对 OpenAI
-        内容负责，请自行申请使用并对内容负责；<br />
-        3. API Key 将只保存在浏览器本地存储，不会做上传或其他操作；<br />
-        4. 请按照格式「key:YOUR_API_KEY」格式输入，即可更新 API Key；<br />
-        5. 请输入「登出」即可清除本地存储的 API Key；<br />
+        Welcome use Pepe AI.
+        <br />
       </div>
     </div>
     <div class="list" v-if="items.length > 0 || officialTips">
       <div class="tips" v-if="officialTips">{{ officialTips }}</div>
       <div v-for="(item, index) in items" :key="index" class="item">
-        <span v-if="item.isGPT">🤖️：</span>
-        <span v-else>🧑：</span>
+        <span v-if="item.isGPT">️🐸：</span>
+        <span v-else>👤：</span>
         <span v-if="item.isGPT">{{ item.message }}</span>
         <span v-else class="human-text">{{ item.message }}</span>
       </div>
@@ -183,7 +173,7 @@ onUnmounted(() => {
         @keydown.enter="addItem"
       />
       <button v-if="isLoading" class="footer-button" @click="stop">🛑</button>
-      <button v-else class="footer-button" @click="addItem">发送</button>
+      <button v-else class="footer-button" @click="addItem">Send</button>
     </div>
   </div>
 </template>

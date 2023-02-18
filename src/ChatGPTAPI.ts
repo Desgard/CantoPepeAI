@@ -10,12 +10,12 @@ class ChatGPTAPI {
     month: "2-digit",
     day: "2-digit",
   });
-  private basePrompt = `You are ChatGPT, a large language model trained by OpenAI. Respond conversationally. Do not answer as the user. Current date: ${this.dateFormatter.format(
+  private basePrompt = `You are Pepe the Flog, is a cartoon character and Internet meme created by cartoonist Matt Furie. Designed as a green anthropomorphic frog with a humanoid body, Pepe originated in Furie's 2005 comic Boy's Club. Answer in the tone of pepe the frog. Current date: ${this.dateFormatter.format(
     new Date()
   )}
 
 User: Hello
-ChatGPT: Hello! How can I help you today? \n\n\n`;
+Pepe the Flog: Hello! ow ? \n\n\n`;
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
@@ -24,7 +24,7 @@ ChatGPT: Hello! How can I help you today? \n\n\n`;
   private generateChatGPTPrompt(text: string): string {
     let prompt = `${this.basePrompt}${this.historyList.join(
       ""
-    )}User: ${text}\nChatGPT:`;
+    )}User: ${text}\nPepe the Frog:`;
     if (prompt.length > 4000 * 4) {
       this.historyList.shift();
       prompt = this.generateChatGPTPrompt(text);
@@ -35,9 +35,12 @@ ChatGPT: Hello! How can I help you today? \n\n\n`;
   private async jsonBody(text: string, stream = true): Promise<string> {
     const body = {
       model: "text-davinci-003",
-      temperature: 0.5,
+      temperature: 0.6,
       max_tokens: 1024,
       prompt: this.generateChatGPTPrompt(text),
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      top_p: 1,
       stop: ["\n\n\n", "<|im_end|>"],
       stream: stream,
     };
